@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+// import { useRouter } from 'next/router';
 
 const Login = () => {
+  const navigate = useNavigate(); 
+
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
-
+  
   const handleLogin = async (e) => {
     e.preventDefault();
 
@@ -29,6 +33,7 @@ const Login = () => {
       alert('Login successful!');
       // now you can redirect or show user data
 
+      navigate('/dashboard'); // redirect to dashboard
     } catch (err) {
       alert(err.message);
     }

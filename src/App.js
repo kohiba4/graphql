@@ -1,17 +1,16 @@
-import logo from './logo.svg';
 import './App.css';
-import Counter from './components/counter';
-import Login from './components/login';
-import { useState } from 'react';
-
-
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Login from './components/pages/login';
+import Dashboard from './components/pages/dashboard';
 
 function App() {
   return (
-    <div>
-      <Login />
-      {/* <Counter /> */}
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+      </Routes>
+    </Router>
   );
 }
 
