@@ -19,6 +19,7 @@ const Login = () => {
         method: 'POST',
         headers: {
           'Authorization': `Basic ${credentials}`,
+          'Content-Type': 'application/json',
         },
       });
 
@@ -27,7 +28,9 @@ const Login = () => {
       }
 
       const data = await res.json();
-      const token = data.token;
+      // console.log('Login response:', data);
+      const token = data;
+      // console.log('JWT:', token);
 
       localStorage.setItem('jwt', token); // store JWT
       alert('Login successful!');
