@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+import '../../loginform.css';
 import { useNavigate } from 'react-router-dom';
+import { FaUser, FaLock } from 'react-icons/fa';
 // import { useRouter } from 'next/router';
 
 const Login = () => {
@@ -47,22 +49,12 @@ const Login = () => {
       <form onSubmit={handleLogin}>
         <h1>Login</h1>
         <div className="input-box">
-          <input
-            type='text'
-            placeholder='Username or Email'
-            required
-            value={login}
-            onChange={(e) => setLogin(e.target.value)}
-          />
+          <input type='text' placeholder='Username or Email' required value={login} onChange={(e) => setLogin(e.target.value)}/>
+          <span><FaUser className='icon' /></span>
         </div>
         <div className="input-box">
-          <input
-            type='password'
-            placeholder='Password'
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+          <input type='password' placeholder='Password' required value={password} onChange={(e) => setPassword(e.target.value)}/>
+          <span><FaLock className='icon' /></span>
         </div>
 
         <button type='submit'>Login</button>
