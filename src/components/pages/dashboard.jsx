@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import fetchUserData from "../queries";
-import fetchTransactionData from "../queries";
+import fetchUserData, { fetchTransactionData } from "../queries";
 import Profile from "./profile";
 import XpOverTimeChart from "./xpovertime";
 
@@ -23,8 +22,9 @@ const Dashboard = () => {
     
       if (data && transactionData) {
         setUserData({
-          ...data,                 // { user, event_user, transaction }
-          transactions: transactionData.transaction, // store XP-only transactions separately
+          user: data.user,
+          event_user: data.event_user,
+          transactions: transactionData.transaction || [] // Use only filtered transactions
         });
       }
     };

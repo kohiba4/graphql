@@ -27,13 +27,6 @@ const query = `
       userLogin
       eventId
     }
-    transaction {
-      amount
-      path
-      type
-      userLogin
-      eventId
-    }
   }
 `;
 
@@ -44,7 +37,8 @@ transaction(
         _and: [
           { type: { _eq: "xp" } },
           { path: { _like: "/bahrain/bh-module%" } },
-          { eventId: { _gt: 600 } }
+          { eventId: {_eq: 20}},
+          { amount: { _gt: 600 } }
         ]
       }
     ) {

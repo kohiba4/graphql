@@ -6,15 +6,23 @@ const XpOverTimeChart = ({ transactions }) => {
   // Process and aggregate the data
   const processedData = useMemo(() => {
     if (!transactions || !Array.isArray(transactions)) {
-      return <div>Loading chart...</div>;
+      return [];
     }
+
     // Group XP by module
     const moduleXP = transactions.reduce((acc, tx) => {
-      if (!tx.path) return acc;
+      if (!tx.path || !tx.path.includes('/bh-module')) return acc;
       
       // Extract module name from path
       const modulePath = tx.path.split('/').filter(Boolean);
-      const moduleName = modulePath[modulePath.length - 1] || modulePath[modulePath.length - 2] || 'unknown';
+      // Get the last meaningful part of the path
+      let moduleName = 'unknown';
+      for (let i = modulePath.length - 1; i >= 0; i--) {
+        if (!modulePath[i].match(/^(find|using)/) && modulePath[i] !== 'bh-module') {
+          moduleName = modulePath[i];
+          break;
+        }
+      }
       
       // Sum up XP for each module
       acc[moduleName] = (acc[moduleName] || 0) + (tx.amount || 0);
@@ -22,10 +30,12 @@ const XpOverTimeChart = ({ transactions }) => {
     }, {});
 
     // Convert to array format required by ApexCharts
-    return Object.entries(moduleXP).map(([module, xp]) => ({
-      x: module.replace(/-/g, ' '), // Make module names more readable
-      y: Math.round(xp) // Round XP to whole numbers
-    }));
+    return Object.entries(moduleXP)
+      .map(([module, xp]) => ({
+        x: module.replace(/-/g, ' '), // Make module names more readable
+        y: Math.round(xp) // Round XP to whole numbers
+      }))
+      .sort((a, b) => b.y - a.y); // Sort by XP amount in descending order
   }, [transactions]);
 
   const chartOptions = {
