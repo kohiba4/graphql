@@ -1,7 +1,7 @@
-import fetchUserData from "../queries";
+// import fetchUserData from "../queries";
 
 const Profile = ({ user }) => {
-    console.log("user: ", user);
+    // console.log("user: ", user);
     if (!user) {
       return <div>Loading...</div>;
     }
@@ -9,9 +9,9 @@ const Profile = ({ user }) => {
     return (
       <div>
         <h1>Profile</h1>
+        <h3>Name: {user[0].firstName} {user[0].lastName}</h3>
         <h3>Username: {user[0].login}</h3>
         <h3>Email: {user[0].email}</h3>
-        <h3>Name: {user[0].firstName} {user[0].lastName}</h3>
         <h3>Audit ratio: {user[0].auditRatio.toFixed(2)}</h3>
       </div>
     );

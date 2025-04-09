@@ -32,7 +32,7 @@ const Login = () => {
       const data = await res.json();
       // console.log('Login response:', data);
       const token = data;
-      // console.log('JWT:', token);
+      console.log('JWT:', token);
 
       localStorage.setItem('jwt', token); // store JWT
       alert('Login successful!');
