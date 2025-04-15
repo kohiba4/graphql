@@ -51,6 +51,31 @@ transaction(
   }
 `;
 
+const FinishedProjects = `
+  query FinishedProjectsByUser {
+  progress(
+    where: {
+        _and: [
+      {isDone: { _eq: true }},
+      {grade: { _gt: 1}},
+        ]
+    },
+    order_by: { updatedAt: desc },
+    limit: 10
+  ) {
+    path
+    isDone
+    createdAt
+    updatedAt
+    eventId
+    grade
+    user {
+      login
+    }
+  }
+}
+`;
+
 const fetchUserData = async (token) => {
   try {
     const res = await fetch("https://learn.reboot01.com/api/graphql-engine/v1/graphql", {
@@ -91,3 +116,23 @@ const fetchTransactionData = async (token) => {
   }
 }
 export { fetchTransactionData };
+
+const fetchFinishedProjects = async (token) => {
+  try {
+    const res = await fetch("https://learn.reboot01.com/api/graphql-engine/v1/graphql", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ query: FinishedProjects }),
+    });
+
+    const json = await res.json();
+    return json.data; // This contains { user, event_user, transaction }
+  } catch (err) {
+    console.error("Error fetching transaction data:", err);
+    return null;
+  }
+}
+export { fetchFinishedProjects };
