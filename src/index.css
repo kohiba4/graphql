@@ -18,7 +18,8 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: url(./components/assets/background.png) no-repeat;
+  /* background: url(./components/assets/background.png) no-repeat; */
+  background: grey;
   background-size: cover;
   background-position: center top -200px;
   /* background-color: seagreen; */

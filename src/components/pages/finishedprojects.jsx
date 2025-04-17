@@ -3,87 +3,80 @@ import ReactApexChart from "react-apexcharts";
 
 const FinishedProjects = ({ projects }) => {
   const processedData = useMemo(() => {
-    if (!projects || !Array.isArray(projects)) {
+    if (!projects?.result || !Array.isArray(projects.result)) {
       return [];
     }
-
-    return projects.map(project => {
-      // Extract meaningful project name from path
-      const pathParts = project.path.split('/').filter(Boolean);
-      const projectName = pathParts[pathParts.length - 1].replace(/-/g, ' ');
-
-      // Format date
-      const date = new Date(project.createdAt);
-      const formattedDate = date.toLocaleDateString('en-US', {
-        month: 'short',
-        day: 'numeric',
-      });
-
-      console.log(date.getDate());
-      return {
-        x: projectName,
-        y: [
-          date.getTime(), // Start
-          date.getTime()  // End (same as start since it's a point in time)
-        ],
-        grade: project.grade,
-        fillColor: '00E396',
-      };
-    });
+  
+    return projects.result.map((project, index) => ({
+      x: new Date(project.createdAt).getTime(),
+      y: index, // number index
+      name: project.object?.name || "Unnamed Project",
+      path: project.path,
+      campus: project.campus,
+      grade: project.grade
+    })).sort((b, a) => a.x - b.x);
   }, [projects]);
-
-  // const getColorByGrade = (grade) => {
-  //   if (grade >= 9) return '#00E396'; // High grade - green
-  //   if (grade >= 7) return '#FEB019'; // Medium grade - yellow/orange
-  //   return '#FF4560'; // Low grade - red
-  // };
+  
 
   const chartOptions = {
     chart: {
-      type: 'timeline',
+      type: 'scatter',
       height: 450,
+      animations: {
+        speed: 400,
+        animateGradually: {
+          enabled: true
+        }
+      },
       toolbar: {
         show: true
       }
     },
-    plotOptions: {
-      bar: {
-        horizontal: true,
-        distributed: true,
-        dataLabels: {
-          hideOverflowingLabels: false
-        }
-      }
-    },
-    dataLabels: {
-      enabled: true,
-      formatter: function(val, opts) {
-        const project = projects[opts.dataPointIndex];
-        return `${opts.w.globals.labels[opts.dataPointIndex]} (Grade: ${project.grade})`;
-      },
-      style: {
-        fontSize: '12px',
-        fontWeight: 'normal'
+    markers: {
+      size: 10,
+      hover: {
+        size: 12
       }
     },
     xaxis: {
       type: 'datetime',
-      position: 'top',
       labels: {
-        format: 'MMM dd'
-      }
-    },
-    yaxis: {
-      labels: {
+        format: 'MMM dd, yyyy',
         style: {
           fontSize: '12px'
         }
+      },
+      title: {
+        text: 'Completion Date',
+        style: {
+          fontSize: '14px',
+          fontWeight: 'bold'
+        }
       }
     },
+    yaxis: {
+      tickAmount: processedData.length,
+      labels: {
+        formatter: (val) => {
+          const item = processedData[Math.round(val)];
+          return item?.name || '';
+        },
+        style: {
+          fontSize: '12px'
+        }
+      },
+      title: {
+        text: 'Project Name',
+        style: {
+          fontSize: '14px',
+          fontWeight: 'bold'
+        }
+      }
+    },    
     tooltip: {
       custom: function({ seriesIndex, dataPointIndex, w }) {
-        const project = projects[dataPointIndex];
-        const date = new Date(project.updatedAt).toLocaleDateString('en-US', {
+        const point = w.globals.initialSeries[seriesIndex].data[dataPointIndex];
+        const date = new Date(point.x).toLocaleDateString('en-US', {
           weekday: 'long',
           year: 'numeric',
           month: 'long',
@@ -92,10 +85,11 @@ const FinishedProjects = ({ projects }) => {
         
         return `
           <div class="custom-tooltip">
-            <b>${w.globals.labels[dataPointIndex]}</b><br/>
+            <b>${point.name}</b><br/>
             Completed: ${date}<br/>
-            Grade: ${project.grade}<br/>
-            Path: ${project.path}
+            Campus: ${point.campus}<br/>
+            Grade: ${point.grade.toFixed(2)}<br/>
+            Path: ${point.path}
           </div>
         `;
       }
@@ -105,11 +99,16 @@ const FinishedProjects = ({ projects }) => {
         lines: {
           show: true
         }
+      },
+      yaxis: {
+        lines: {
+          show: true
+        }
       }
     },
-    colors: ['#00B1F2'], // Default color, will be overridden by fillColor
+    colors: ['#008FFB'], // Single color for all points
     title: {
-      text: 'Recently Completed Projects',
+      text: 'Project Completion Timeline',
       align: 'center',
       style: {
         fontSize: '18px',
@@ -122,7 +121,7 @@ const FinishedProjects = ({ projects }) => {
     data: processedData
   }];
 
-  if (!projects || projects.length === 0) {
+  if (!projects?.result || projects.result.length === 0) {
     return <div>No completed projects to display</div>;
   }
 
@@ -131,8 +130,9 @@ const FinishedProjects = ({ projects }) => {
       <ReactApexChart
         options={chartOptions}
         series={series}
-        type="rangeBar"
+        type="scatter"
         height={450}
+        width={800}
       />
     </div>
   );

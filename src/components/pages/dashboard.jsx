@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import fetchUserData, { fetchTransactionData, fetchFinishedProjects } from "../queries";
+import fetchUserData, { fetchTransactionData, fetchFinishedProjects, fetchSkillData } from "../queries";
 import Profile from "./profile";
 import XpOverTimeChart from "./xpovertime";
 import FinishedProjects from "./finishedprojects";
+import UserSkill from "./userskill";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -21,18 +22,19 @@ const Dashboard = () => {
       const data = await fetchUserData(token);
       const transactionData = await fetchTransactionData(token);
       const projectData = await fetchFinishedProjects(token);
+      const skillData = await fetchSkillData(token);
     
       if (data && transactionData) {
         setUserData({
           user: data.user,
           event_user: data.event_user,
           transactions: transactionData.transaction || [], // Use only filtered transactions
-          finishedProjects: projectData?.progress || [] // Add finished projects data
+          finishedProjects: projectData, // Use the entire projectData object
+          skills: skillData // Add skills data
         });
       }
     };
     
-
     getData();
     console.log("data: ", userData);
   }, [navigate]);
@@ -52,7 +54,9 @@ const Dashboard = () => {
       {userData && <XpOverTimeChart transactions={userData.transactions} />}
       <h2>Your last 10 finished projects</h2>
       {userData && <FinishedProjects projects={userData.finishedProjects} />}
-      </div>
+      <h2>Your Skills Distribution</h2>
+      {userData && <UserSkill skillData={userData.skills} />}
+    </div>
   );
 };
 

@@ -53,27 +53,52 @@ transaction(
 
 const FinishedProjects = `
   query FinishedProjectsByUser {
-  progress(
-    where: {
+    result(
+      where: {
         _and: [
-      {isDone: { _eq: true }},
-      {grade: { _gt: 1}},
+          { isLast: { _eq: true } }
+          { grade: { _gt: 1 } }
         ]
-    },
-    order_by: { updatedAt: desc },
-    limit: 10
-  ) {
-    path
-    isDone
-    createdAt
-    updatedAt
-    eventId
-    grade
-    user {
-      login
+      }
+      order_by: { createdAt: desc }
+      limit: 10
+    ) {
+      createdAt
+      grade
+      path
+      eventId
+      campus
+      object {
+        name
+      }
     }
   }
-}
+`;
+
+const skillQuery = `
+  query Skill {
+    user {
+      firstName
+      lastName
+      id
+      login
+      auditRatio
+      email
+      campus
+      totalUp
+      totalDown
+      createdAt
+    }
+    transaction(
+      where: {type: {_iregex: "(^|[^[:alnum:]_])[[:alnum:]_]*skill_[[:alnum:]_]*($|[^[:alnum:]_])"}, event: {path: {_eq: "/bahrain/bh-module"}}}
+      order_by: {createdAt: asc}
+    ) {
+      amount
+      type
+      createdAt
+      objectId
+    }
+  }
 `;
 
 const fetchUserData = async (token) => {
@@ -88,14 +113,12 @@ const fetchUserData = async (token) => {
     });
 
     const json = await res.json();
-    return json.data; // This contains { user, event_user, transaction }
+    return json.data;
   } catch (err) {
     console.error("Error fetching user data:", err);
     return null;
   }
 };
-
-export default fetchUserData;
 
 const fetchTransactionData = async (token) => {
   try {
@@ -109,13 +132,12 @@ const fetchTransactionData = async (token) => {
     });
 
     const json = await res.json();
-    return json.data; // This contains { user, event_user, transaction }
+    return json.data;
   } catch (err) {
     console.error("Error fetching transaction data:", err);
     return null;
   }
-}
-export { fetchTransactionData };
+};
 
 const fetchFinishedProjects = async (token) => {
   try {
@@ -129,10 +151,31 @@ const fetchFinishedProjects = async (token) => {
     });
 
     const json = await res.json();
-    return json.data; // This contains { user, event_user, transaction }
+    return json.data;
   } catch (err) {
-    console.error("Error fetching transaction data:", err);
+    console.error("Error fetching finished projects:", err);
     return null;
   }
-}
-export { fetchFinishedProjects };
+};
+
+const fetchSkillData = async (token) => {
+  try {
+    const res = await fetch("https://learn.reboot01.com/api/graphql-engine/v1/graphql", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ query: skillQuery }),
+    });
+
+    const json = await res.json();
+    return json.data;
+  } catch (err) {
+    console.error("Error fetching skill data:", err);
+    return null;
+  }
+};
+
+export default fetchUserData;
+export { fetchTransactionData, fetchFinishedProjects, fetchSkillData };
