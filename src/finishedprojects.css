@@ -1,0 +1,89 @@
+.projects-container {
+  background: var(--secondary-dark);
+  border-radius: 12px;
+  padding: 1.5rem;
+  height: 100%;
+  color: var(--text-primary);
+}
+
+.projects-title {
+  color: var(--text-primary);
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.timeline-chart {
+  width: 100%;
+  height: 100%;
+}
+
+.project-tooltip {
+  background: var(--secondary-dark) !important;
+  border: 1px solid rgba(30, 144, 255, 0.2);
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.tooltip-title {
+  color: var(--accent-blue);
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(30, 144, 255, 0.2);
+}
+
+.tooltip-content {
+  color: var(--text-primary);
+  font-size: 0.9rem;
+  display: grid;
+  gap: 0.25rem;
+}
+
+.tooltip-path {
+  margin-top: 0.25rem;
+  padding-top: 0.25rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  word-break: break-all;
+}
+
+.empty-message {
+  text-align: center;
+  color: var(--text-secondary);
+  padding: 2rem;
+}
+
+/* Chart customizations */
+.apexcharts-xaxis-label,
+.apexcharts-yaxis-label {
+  fill: var(--text-secondary) !important;
+}
+
+.apexcharts-grid-row,
+.apexcharts-grid-column {
+  stroke: rgba(230, 241, 255, 0.05) !important;
+}
+
+.apexcharts-marker {
+  filter: drop-shadow(0 0 6px rgba(30, 144, 255, 0.4));
+}
+
+.apexcharts-zoom-icon,
+.apexcharts-zoomin-icon,
+.apexcharts-zoomout-icon,
+.apexcharts-reset-icon,
+.apexcharts-pan-icon {
+  fill: var(--text-secondary) !important;
+}
+
+.apexcharts-zoom-icon:hover,
+.apexcharts-zoomin-icon:hover,
+.apexcharts-zoomout-icon:hover,
+.apexcharts-reset-icon:hover,
+.apexcharts-pan-icon:hover {
+  fill: var(--text-primary) !important;
+}

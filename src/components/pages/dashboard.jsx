@@ -46,16 +46,27 @@ const Dashboard = () => {
   };
 
   return (
-    <div>
-      <button onClick={deleteToken}>Logout</button>
-      <h1>Welcome to your dashboard!</h1>
-      {userData && <Profile user={userData.user} />}
-      <h2>Your XP over time</h2>
-      {userData && <XpOverTimeChart transactions={userData.transactions} />}
-      <h2>Your last 10 finished projects</h2>
-      {userData && <FinishedProjects projects={userData.finishedProjects} />}
-      <h2>Your Skills Distribution</h2>
-      {userData && <UserSkill skillData={userData.skills} />}
+    <div className="dashboard-container">
+      <div className="dashboard-header">
+        <h1 className="dashboard-title">Welcome to your dashboard!</h1>
+        <button className="logout-btn" onClick={deleteToken}>Logout</button>
+      </div>
+      <div className="dashboard-grid">
+        <div className="dashboard-card">
+          {userData && <Profile user={userData.user} />}
+        </div>
+        <div className="dashboard-card">
+          {userData && <UserSkill skillData={userData.skills} />}
+        </div>
+      </div>
+      <div className="dashboard-grid">
+        <div className="dashboard-card">
+          {userData && <XpOverTimeChart transactions={userData.transactions} />}
+        </div>
+        <div className="dashboard-card">
+          {userData && <FinishedProjects projects={userData.finishedProjects} />}
+        </div>
+      </div>
     </div>
   );
 };

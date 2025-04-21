@@ -1,21 +1,31 @@
-// import fetchUserData from "../queries";
-
 const Profile = ({ user }) => {
-    // console.log("user: ", user);
     if (!user) {
       return <div>Loading...</div>;
     }
-    // console.log("user email: ", user[0].email);
+
     return (
-      <div>
-        <h1>Profile</h1>
-        <h3>Name: {user[0].firstName} {user[0].lastName}</h3>
-        <h3>Username: {user[0].login}</h3>
-        <h3>Email: {user[0].email}</h3>
-        <h3>Audit ratio: {user[0].auditRatio.toFixed(2)}</h3>
+      <div className="profile-card">
+        <h2 className="profile-title">Profile</h2>
+        <div className="profile-info">
+          <div className="info-item">
+            <span className="info-label">Name</span>
+            <span className="info-value">{user[0].firstName} {user[0].lastName}</span>
+          </div>
+          <div className="info-item">
+            <span className="info-label">Username</span>
+            <span className="info-value">{user[0].login}</span>
+          </div>
+          <div className="info-item">
+            <span className="info-label">Email</span>
+            <span className="info-value">{user[0].email}</span>
+          </div>
+          <div className="audit-ratio">
+            <span className="info-label">Audit Ratio</span>
+            <span className="info-value">{user[0].auditRatio.toFixed(2)}</span>
+          </div>
+        </div>
       </div>
     );
   };
   
   export default Profile;
-  

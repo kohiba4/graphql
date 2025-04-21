@@ -9,7 +9,7 @@ const FinishedProjects = ({ projects }) => {
   
     return projects.result.map((project, index) => ({
       x: new Date(project.createdAt).getTime(),
-      y: index, // number index
+      y: index,
       name: project.object?.name || "Unnamed Project",
       path: project.path,
       campus: project.campus,
@@ -17,40 +17,55 @@ const FinishedProjects = ({ projects }) => {
     })).sort((b, a) => a.x - b.x);
   }, [projects]);
   
-
   const chartOptions = {
     chart: {
+      height: 350,
       type: 'scatter',
-      height: 450,
+      zoom: {
+        enabled: false
+      },
+      background: 'transparent',
       animations: {
-        speed: 400,
-        animateGradually: {
-          enabled: true
-        }
+        enabled: true,
+        easing: 'easeinout',
+        speed: 800
+      },
+      dropShadow: {
+        enabled: true,
+        top: 3,
+        left: 2,
+        blur: 4,
+        opacity: 0.2,
+        color: 'var(--accent-blue)'
       },
       toolbar: {
-        show: true
+        show: false
       }
     },
     markers: {
-      size: 10,
+      size: 8,
+      colors: ['var(--accent-blue)'],
+      strokeColors: 'transparent',
       hover: {
-        size: 12
+        size: 10,
+        sizeOffset: 3
       }
     },
     xaxis: {
       type: 'datetime',
       labels: {
-        format: 'MMM dd, yyyy',
         style: {
+          colors: 'var(--text-secondary)',
           fontSize: '12px'
-        }
+        },
+        format: 'MMM dd, yyyy'
       },
       title: {
         text: 'Completion Date',
         style: {
+          color: 'var(--text-secondary)',
           fontSize: '14px',
-          fontWeight: 'bold'
+          fontWeight: '500'
         }
       }
     },
@@ -62,18 +77,21 @@ const FinishedProjects = ({ projects }) => {
           return item?.name || '';
         },
         style: {
+          colors: 'var(--text-secondary)',
           fontSize: '12px'
         }
       },
       title: {
         text: 'Project Name',
         style: {
+          color: 'var(--text-secondary)',
           fontSize: '14px',
-          fontWeight: 'bold'
+          fontWeight: '500'
         }
       }
-    },    
+    },
     tooltip: {
+      theme: 'dark',
       custom: function({ seriesIndex, dataPointIndex, w }) {
         const point = w.globals.initialSeries[seriesIndex].data[dataPointIndex];
         const date = new Date(point.x).toLocaleDateString('en-US', {
@@ -84,17 +102,20 @@ const FinishedProjects = ({ projects }) => {
         });
         
         return `
-          <div class="custom-tooltip">
-            <b>${point.name}</b><br/>
-            Completed: ${date}<br/>
-            Campus: ${point.campus}<br/>
-            Grade: ${point.grade.toFixed(2)}<br/>
-            Path: ${point.path}
+          <div class="project-tooltip">
+            <div class="tooltip-title">${point.name}</div>
+            <div class="tooltip-content">
+              <div>Completed: ${date}</div>
+              <div>Campus: ${point.campus}</div>
+              <div>Grade: ${point.grade.toFixed(2)}</div>
+              <div class="tooltip-path">Path: ${point.path}</div>
+            </div>
           </div>
         `;
       }
     },
     grid: {
+      borderColor: 'rgba(255, 255, 255, 0.05)',
       xaxis: {
         lines: {
           show: true
@@ -106,33 +127,51 @@ const FinishedProjects = ({ projects }) => {
         }
       }
     },
-    colors: ['#008FFB'], // Single color for all points
+    fill: {
+      type: 'gradient',
+      gradient: {
+        type: 'vertical',
+        shadeIntensity: 0.5,
+        gradientToColors: ['var(--accent-blue)'],
+        inverseColors: false,
+        opacityFrom: 0.8,
+        opacityTo: 0.3,
+        stops: [0, 100]
+      }
+    },
     title: {
       text: 'Project Completion Timeline',
       align: 'center',
       style: {
-        fontSize: '18px',
-        fontWeight: 'bold'
+        fontSize: '20px',
+        fontWeight: '600',
+        color: 'var(--text-primary)'
       }
     }
   };
 
   const series = [{
+    name: 'Projects',
     data: processedData
   }];
 
   if (!projects?.result || projects.result.length === 0) {
-    return <div>No completed projects to display</div>;
+    return (
+      <div className="projects-container">
+        <h2 className="projects-title">Project Timeline</h2>
+        <div className="empty-message">No completed projects to display</div>
+      </div>
+    );
   }
 
   return (
-    <div>
+    <div className="projects-container">
       <ReactApexChart
         options={chartOptions}
         series={series}
         type="scatter"
-        height={450}
-        width={800}
+        height={400}
+        className="timeline-chart"
       />
     </div>
   );

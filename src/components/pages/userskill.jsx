@@ -47,66 +47,87 @@ const UserSkill = ({ skillData }) => {
       height: 400,
       type: 'radar',
       toolbar: {
-        show: true
+        show: false
+      },
+      background: 'transparent',
+      animations: {
+        enabled: true,
+        easing: 'easeinout',
+        speed: 800
       }
     },
     title: {
       text: 'Skill Distribution',
       align: 'center',
       style: {
-        fontSize: '18px',
-        fontWeight: 'bold'
+        fontSize: '20px',
+        fontWeight: '600',
+        color: 'var(--text-primary)'
       }
     },
     xaxis: {
       categories: processedData.categories,
       labels: {
         style: {
-          fontSize: '14px'
-          
+          fontSize: '14px',
+          fontWeight: '500'
         }
       }
     },
     yaxis: {
       show: true,
       labels: {
-        formatter: (val) => Math.round(val)
+        formatter: (val) => Math.round(val),
+        style: {
+          colors: 'var(--text-secondary)'
+        }
       }
     },
     markers: {
       size: 5,
+      colors: ['var(--accent-blue)'],
+      strokeWidth: 0,
       hover: {
-        size: 7,
-        colors: ['#000000']
+        size: 7
       }
     },
     tooltip: {
+      theme: 'dark',
+      style: {
+        fontSize: '14px'
+      },
       y: {
-        formatter: (val) => Math.round(val)
+        formatter: (val) => Math.round(val) + ' points'
       }
-    },
-    theme: {
-      palette: 'palette1'
     },
     stroke: {
       width: 2,
+      colors: ['var(--accent-blue)']
     },
     fill: {
-      opacity: 0.25,
-      
+      opacity: 0.2,
+      colors: ['var(--accent-blue)']
     },
-    // options: {
-    //     plotOptions: {
-    //         radar: {
-    //             polygons: {
-    //                 strokeColors: '#e0e0e0',
-    //                 fill: {
-    //                     colors: ['#f8f8f8', '#fff']
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }
+    grid: {
+      show: true,
+      strokeDashArray: 3,
+      yaxis: {
+        lines: {
+          show: true
+        }
+      }
+    },
+    plotOptions: {
+      radar: {
+        polygons: {
+          strokeColors: 'rgba(255, 255, 255, 0.05)',
+          connectorColors: 'rgba(255, 255, 255, 0.05)',
+          fill: {
+            colors: ['transparent']
+          }
+        }
+      }
+    }
   };
 
   const series = [{
@@ -119,12 +140,13 @@ const UserSkill = ({ skillData }) => {
   }
 
   return (
-    <div>
+    <div className="skill-chart-container">
       <ReactApexChart
         options={chartOptions}
         series={series}
         type="radar"
         height={400}
+        className="skill-chart"
       />
     </div>
   );

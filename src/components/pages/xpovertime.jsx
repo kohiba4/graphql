@@ -42,22 +42,26 @@ const XpOverTimeChart = ({ transactions }) => {
     chart: {
       type: "bar",
       height: 350,
+      background: 'transparent',
       animations: {
         enabled: true,
+        easing: 'easeinout',
+        speed: 800,
         dynamicAnimation: {
           speed: 350
         }
       },
       toolbar: {
-        show: true
+        show: false
       }
     },
     title: {
       text: "XP Earned per Module",
       align: "center",
       style: {
-        fontSize: '18px',
-        fontWeight: 'bold'
+        fontSize: '20px',
+        fontWeight: '600',
+        color: 'var(--text-primary)'
       }
     },
     xaxis: {
@@ -65,14 +69,16 @@ const XpOverTimeChart = ({ transactions }) => {
       title: {
         text: "Module",
         style: {
-          fontSize: '14px'
+          fontSize: '14px',
+          color: 'var(--text-secondary)'
         }
       },
       labels: {
         rotate: -45,
         trim: true,
         style: {
-          fontSize: '12px'
+          fontSize: '12px',
+          colors: 'var(--text-secondary)'
         }
       }
     },
@@ -80,23 +86,36 @@ const XpOverTimeChart = ({ transactions }) => {
       title: {
         text: "XP Amount",
         style: {
-          fontSize: '14px'
+          fontSize: '14px',
+          color: 'var(--text-secondary)'
         }
       },
       labels: {
-        formatter: (value) => Math.round(value)
+        formatter: (value) => Math.round(value),
+        style: {
+          colors: 'var(--text-secondary)'
+        }
       }
     },
     tooltip: {
+      theme: 'dark',
       y: {
         formatter: (value) => `${Math.round(value)} XP`
       }
     },
     plotOptions: {
       bar: {
-        borderRadius: 4,
+        borderRadius: 6,
         dataLabels: {
           position: 'top'
+        },
+        columnWidth: '60%',
+        colors: {
+          ranges: [{
+            from: 0,
+            to: Infinity,
+            color: 'var(--accent-blue)'
+          }]
         }
       }
     },
@@ -106,7 +125,28 @@ const XpOverTimeChart = ({ transactions }) => {
       offsetY: -20,
       style: {
         fontSize: '12px',
-        colors: ["#304758"]
+        colors: ["var(--text-primary)"]
+      }
+    },
+    grid: {
+      borderColor: 'rgba(255, 255, 255, 0.05)',
+      strokeDashArray: 3,
+      xaxis: {
+        lines: {
+          show: true
+        }
+      }
+    },
+    fill: {
+      type: 'gradient',
+      gradient: {
+        type: 'vertical',
+        shadeIntensity: 0.5,
+        gradientToColors: ['var(--accent-blue)'],
+        inverseColors: false,
+        opacityFrom: 0.8,
+        opacityTo: 0.3,
+        stops: [0, 100]
       }
     }
   };
@@ -119,12 +159,13 @@ const XpOverTimeChart = ({ transactions }) => {
   ];
 
   return (
-    <div>
+    <div className="xp-chart-container">
       <ReactApexChart 
         options={chartOptions} 
         series={series} 
         type="bar" 
         height={350}
+        className="xp-chart"
       />
     </div>
   );
