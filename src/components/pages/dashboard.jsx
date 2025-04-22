@@ -56,7 +56,7 @@ const Dashboard = () => {
 
   const deleteToken = () => {
     localStorage.removeItem("jwt");
-    alert("Logged out successfully!");
+    // alert("Logged out successfully!");
     navigate("/");
   };
 
