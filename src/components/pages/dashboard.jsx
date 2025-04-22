@@ -14,7 +14,6 @@ const Dashboard = () => {
     const token = localStorage.getItem("jwt");
     console.log("token: ", token);
     if (!token) {
-      navigate("/");
       return;
     }
 

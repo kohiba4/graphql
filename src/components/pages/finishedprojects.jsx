@@ -14,7 +14,7 @@ const FinishedProjects = ({ projects }) => {
       path: project.path,
       campus: project.campus,
       grade: project.grade
-    })).sort((b, a) => a.x - b.x);
+    })).sort((a, b) => b.x - a.x);
   }, [projects]);
   
   const chartOptions = {
