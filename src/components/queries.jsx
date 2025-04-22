@@ -21,15 +21,17 @@ transaction(
           { type: { _eq: "xp" } },
           { path: { _like: "/bahrain/bh-module%" } },
           { eventId: {_eq: 20}},
-          { amount: { _gt: 600 } }
         ]
       }
+        order_by: { amount: desc }
+        limit: 10
     ) {
       amount
       path
       type
       userLogin
       eventId
+      createdAt
     }
   }
 `;

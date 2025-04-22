@@ -92,27 +92,12 @@ const FinishedProjects = ({ projects }) => {
     },
     tooltip: {
       theme: 'dark',
-      custom: function({ seriesIndex, dataPointIndex, w }) {
-        const point = w.globals.initialSeries[seriesIndex].data[dataPointIndex];
-        const date = new Date(point.x).toLocaleDateString('en-US', {
-          weekday: 'long',
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric'
-        });
-        
-        return `
-          <div class="project-tooltip">
-            <div class="tooltip-title">${point.name}</div>
-            <div class="tooltip-content">
-              <div>Started: ${date}</div>
-              <div>Campus: ${point.campus}</div>
-              <div>Grade: ${point.grade.toFixed(2)}</div>
-              <div class="tooltip-path">Path: ${point.path}</div>
-            </div>
-          </div>
-        `;
-      }
+      y: {
+        formatter: (val, { dataPointIndex }) => {
+          const item = processedData[dataPointIndex];
+          return `${item.name} , ${item.grade.toFixed(2)}`;
+        }
+      },
     },
     grid: {
       borderColor: 'rgba(255, 255, 255, 0.05)',

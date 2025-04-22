@@ -5,15 +5,31 @@ import Profile from "./profile";
 import XpOverTimeChart from "./xpovertime";
 import FinishedProjects from "./finishedprojects";
 import UserSkill from "./userskill";
+import { FaUser, FaLock, FaExclamationTriangle } from 'react-icons/fa';
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
+  const [showError, setShowError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const handleCloseError = () => {
+    setShowError(false);
+    navigate("/")
+  };
 
   useEffect(() => {
     const token = localStorage.getItem("jwt");
     console.log("token: ", token);
     if (!token) {
+      let timeout;
+      setErrorMessage("Please log in to access your dashboard.");
+      setShowError(true);
+      timeout = setTimeout(() => {
+        setShowError(false);
+      }, 5000);
+
+      // navigate("/");
       return;
     }
 
@@ -66,6 +82,15 @@ const Dashboard = () => {
           {userData && <FinishedProjects projects={userData.finishedProjects} />}
         </div>
       </div>
+      <div className={`error-modal-overlay ${showError ? 'show' : ''}`} onClick={handleCloseError}>
+              <div className={`error-modal ${showError ? 'show' : ''}`} onClick={(e) => e.stopPropagation()}>
+                <FaExclamationTriangle className="error-icon" />
+                <div className="error-message">{errorMessage}</div>
+                <button className="error-close-btn" onClick={handleCloseError}>
+                  Close
+                </button>
+              </div>
+            </div>
     </div>
   );
 };

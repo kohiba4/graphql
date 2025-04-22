@@ -56,7 +56,7 @@ const XpOverTimeChart = ({ transactions }) => {
       }
     },
     title: {
-      text: "XP Earned per Module",
+      text: "Most XP Earned Per Project ",
       align: "center",
       style: {
         fontSize: '20px',
@@ -67,7 +67,7 @@ const XpOverTimeChart = ({ transactions }) => {
     xaxis: {
       type: "category",
       title: {
-        text: "Module",
+        text: "Project",
         style: {
           fontSize: '14px',
           color: 'var(--text-secondary)'
@@ -91,7 +91,7 @@ const XpOverTimeChart = ({ transactions }) => {
         }
       },
       labels: {
-        formatter: (value) => Math.round(value),
+formatter: (value) => `${(value / 1000).toFixed(1).replace(/\.0$/, "") + "k"} XP`,
         style: {
           colors: 'var(--text-secondary)'
         }
@@ -100,7 +100,7 @@ const XpOverTimeChart = ({ transactions }) => {
     tooltip: {
       theme: 'dark',
       y: {
-        formatter: (value) => `${Math.round(value)} XP`
+        formatter: (value) => `${(value / 1000).toFixed(2).replace(/\.0$/, "") + "k"} XP`,
       }
     },
     plotOptions: {
@@ -121,7 +121,7 @@ const XpOverTimeChart = ({ transactions }) => {
     },
     dataLabels: {
       enabled: true,
-      formatter: (value) => `${Math.round(value)} XP`,
+      formatter: (value) => `${(value / 1000).toFixed(2).replace(/\.0$/, "") + "k"} XP`,
       offsetY: -20,
       style: {
         fontSize: '12px',
