@@ -1,6 +1,7 @@
 const query = `
   query User {
     user {
+      attrs
       auditRatio
       email
       firstName
@@ -8,24 +9,6 @@ const query = `
       login
       totalDown
       totalUp
-      groupsByCaptainid {
-        campus
-        captainId
-        captainLogin
-        createdAt
-        eventId
-        id
-        objectId
-        path
-        status
-        updatedAt
-      }
-    }
-    event_user(where: { eventId: { _in: [72, 20, 250] } }) {
-      level
-      userId
-      userLogin
-      eventId
     }
   }
 `;

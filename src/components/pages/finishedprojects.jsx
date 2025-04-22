@@ -61,7 +61,7 @@ const FinishedProjects = ({ projects }) => {
         format: 'MMM dd, yyyy'
       },
       title: {
-        text: 'Completion Date',
+        text: 'Start Date',
         style: {
           color: 'var(--text-secondary)',
           fontSize: '14px',
@@ -105,7 +105,7 @@ const FinishedProjects = ({ projects }) => {
           <div class="project-tooltip">
             <div class="tooltip-title">${point.name}</div>
             <div class="tooltip-content">
-              <div>Completed: ${date}</div>
+              <div>Started: ${date}</div>
               <div>Campus: ${point.campus}</div>
               <div>Grade: ${point.grade.toFixed(2)}</div>
               <div class="tooltip-path">Path: ${point.path}</div>
