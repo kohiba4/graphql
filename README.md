@@ -142,6 +142,7 @@ The GraphQL project is a React-based web application that displays user informat
 
 ## Project Structure
 
+```
 graphql
 ├─ README.md
 ├─ package-lock.json
@@ -179,6 +180,7 @@ graphql
    ├─ setupTests.js
    ├─ skillchart.css
    └─ xpchart.css
+```
 
 ## Installation
 
