@@ -1,0 +1,56 @@
+.error-page {
+    height: 100vh;
+    background: rgba(10, 25, 47, 0.8);
+    backdrop-filter: blur(4px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+}
+  
+.error-page-content {
+background: var(--secondary-dark);
+padding: 2rem 3rem;
+border-radius: 16px;
+text-align: center;
+max-width: 500px;
+width: 100%;
+box-shadow:
+    8px 8px 16px rgba(0, 0, 0, 0.3),
+    -8px -8px 16px rgba(255, 255, 255, 0.03);
+}
+
+.error-page h1 {
+font-size: 2.5rem;
+color: #ff3b30;
+margin-bottom: 1rem;
+filter: drop-shadow(0 0 10px rgba(255, 59, 48, 0.3));
+}
+
+.error-page h3 {
+color: var(--text-primary);
+font-size: 1.2rem;
+margin-bottom: 2rem;
+}
+
+.error-page button {
+display: inline-block;
+padding: 0.75rem 1.5rem;
+background: linear-gradient(135deg, #ff3b30, #ff6b60);
+color: white;
+font-weight: 600;
+border-radius: 8px;
+text-decoration: none;
+box-shadow: 
+    4px 4px 8px rgba(0, 0, 0, 0.3),
+    -4px -4px 8px rgba(255, 255, 255, 0.05);
+transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.error-page a:hover {
+transform: translateY(-2px);
+box-shadow: 
+    6px 6px 12px rgba(0, 0, 0, 0.4),
+    -6px -6px 12px rgba(255, 255, 255, 0.06);
+}
